@@ -1,6 +1,8 @@
-# developer_workstation cookbook
+# Chef Developer Workstation Bootstrap
 
 # Requirements
+- Ruby > 1.8.7
+- Rubygems
 
 # Usage
 
@@ -10,4 +12,4 @@
 
 # Author
 
-Author:: YOUR_NAME (<YOUR_EMAIL>)
+Author:: Michael Goetz (mpgoetz@gmail.com)
