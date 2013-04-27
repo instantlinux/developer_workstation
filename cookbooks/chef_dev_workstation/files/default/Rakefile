@@ -1,0 +1,51 @@
+#! /usr/bin/env ruby
+
+desc "Install everything"
+task :omni => [ "packages:install", "gems:install" ]
+
+namespace :gems do
+  require 'rubygems'
+
+
+  desc "Install Gems"
+  task :install do
+    docs = (ENV['DOCS'].nil? ? '--no-rdoc --no-ri' : '')
+    gems = [ "vagrant", "berkshelf", "chef", "chefspec", "minitest-chef-handler" ]
+    gems.each do |gem|
+      gem_loaded = false
+      begin
+        gem_loaded = require_gem gem
+      rescue Exception
+      end
+      if !gem_loaded
+        ret = system "gem install #{gem} #{doc}"
+        p $? unless ret
+      else
+         puts "#{gem} already installed"
+      end
+    end
+  end
+end
+
+namespace :packages do
+  
+  desc "Packages - polipo et al"
+  task :install => [:prereqs] do
+    ret = system "zypper -n install polipo"
+    p $? unless ret
+    if !ret
+      exit ret
+    end
+  end
+
+  desc "Prerequisites"
+  task :prereqs do
+#    ret = system "apt-get install -y automake"
+    ret = system "zypper -n install automake ruby-devel"
+    p $? unless ret
+    if !ret
+      exit ret
+    end
+  end
+
+end
